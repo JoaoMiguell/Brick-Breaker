@@ -15,6 +15,7 @@ int main(void) {
 	bool exitWindow{ false };
 	int noBricks{ 0 };
 	int count{ 0 };
+	Sound breakBrick{ LoadSound("assets/break.wav") };
 
 	genScenario(bricks);
 
@@ -31,7 +32,8 @@ int main(void) {
 			lastDirectionPlayer = 1;
 		}
 
-		ball.move(screenW, screenH);
+		if(ball.lifes != 0)
+			ball.move(screenW, screenH);
 
 		// Objects Collisions
 		if(CheckCollisionCircleRec(ball.position, ball.size, player))
@@ -45,6 +47,7 @@ int main(void) {
 				i->height = 0;
 				ball.collide('b');
 				noBricks++;
+				PlaySound(breakBrick);
 			}
 		}
 
@@ -84,6 +87,7 @@ int main(void) {
 	}
 
 	UnloadSound(ball.deathSound);
+	UnloadSound(breakBrick);
 	CloseAudioDevice();
 	CloseWindow();
 	return 0;
