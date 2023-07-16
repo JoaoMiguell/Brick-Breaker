@@ -15,6 +15,7 @@ struct Ball {
 	int lifes{ 5 },
 		xdirection{ 1 },
 		ydirection{ 1 };
+	Sound deathSound{ LoadSound("death.wav") };
 
 	void move(int screenW, int screenH) {
 		position.x += xdirection * 2;
@@ -40,6 +41,7 @@ struct Ball {
 		lifes--;
 		position.x = screenW / 2;
 		position.y = screenH / 2;
+		PlaySound(deathSound);
 	}
 };
 

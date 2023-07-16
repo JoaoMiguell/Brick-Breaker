@@ -2,6 +2,10 @@
 
 int main(void) {
 	const int screenW{ 610 }, screenH{ 550 };
+	InitWindow(screenW, screenH, "My game");
+	SetTargetFPS(60);
+	InitAudioDevice();
+
 	Rectangle player{ (float)screenW / 2 - 30, (float)screenH - 50, 60.0f,20.f };
 	int lastDirectionPlayer{ 1 };
 	std::vector<Rectangle> bricks(50);
@@ -13,10 +17,11 @@ int main(void) {
 	int count{ 0 };
 
 	genScenario(bricks);
-	InitWindow(screenW, screenH, "My game");
-	SetTargetFPS(60);
 
 	while(!exitWindow) {
+		if(WindowShouldClose()) exitWindow = true;
+
+		PlaySound(ball.deathSound);
 		// Moviments
 		if(IsKeyDown(KEY_LEFT)) {
 			player.x -= 5;
@@ -56,9 +61,6 @@ int main(void) {
 		if((ball.position.y >= (screenH - ball.size)) || (ball.position.y <= ball.size))
 			ball.collide('b');
 
-		// TODO: fazer o end-game com win ou lose
-
-
 		BeginDrawing();
 		ClearBackground(BLACK);
 		DrawFPS(20, 20);
@@ -78,11 +80,12 @@ int main(void) {
 			DrawText(stateWL.c_str(), screenW / 2 - 60, screenH / 2, 40, WHITE);
 
 			count == 200 ? exitWindow = true : count++;
-			std::cout << count << std::endl;
 		}
 		EndDrawing();
 	}
 
+	UnloadSound(ball.deathSound);
+	CloseAudioDevice();
 	CloseWindow();
 	return 0;
 }
