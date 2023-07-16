@@ -11,7 +11,7 @@ int main(void) {
 	std::vector<Rectangle> bricks(50);
 	Ball ball{ {screenW / 2, screenH / 2} };
 	Rectangle deathArea{ 0, screenH - 45, screenW, 40 };
-	std::string textLifes{std::format("Vidas: {}", ball.lifes)};
+	std::string textLifes{std::format("Lifes: {}", ball.lifes)};
 	bool exitWindow{ false };
 	int noBricks{ 0 };
 	int count{ 0 };
@@ -21,7 +21,6 @@ int main(void) {
 	while(!exitWindow) {
 		if(WindowShouldClose()) exitWindow = true;
 
-		PlaySound(ball.deathSound);
 		// Moviments
 		if(IsKeyDown(KEY_LEFT)) {
 			player.x -= 5;
@@ -51,7 +50,7 @@ int main(void) {
 
 		if(CheckCollisionCircleRec(ball.position, ball.size, deathArea)) {
 			ball.hit(screenW, screenH);
-			textLifes = std::format("Vidas: {}", ball.lifes);
+			textLifes = std::format("Lifes: {}", ball.lifes);
 		}
 
 
